@@ -29,7 +29,7 @@ To run this project locally, please follow these steps:
 
 1.  **Clone the repository:**
     ```bash
-    git clone [Your-GitHub-Repo-URL]
+    git clone https://github.com/vtejj/AI_Fraud_analyst_agent.git
     cd credit_agent
     ```
 
