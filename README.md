@@ -87,3 +87,9 @@ You can interact with the API via the auto-generated FastAPI documentation at `h
 This project uses the "Credit Card Fraud Detection" dataset from Kaggle. It is a highly imbalanced dataset containing anonymized transaction data.
 * **Source:** [Kaggle Dataset Link](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud)
 * **Citation:** Andrea Dal Pozzolo, Olivier Caelen, Reid A. Johnson and Gianluca Bontempi. Calibrating Probability with Undersampling for Unbalanced Classification. In Symposium on Computational Intelligence and Data Mining (CIDM), IEEE, 2015
+
+## Original Research and Analysis
+
+The initial data exploration, feature engineering, comparison of 9 different machine learning models with 4 oversampling techniques, and final model selection process are detailed in the Jupyter Notebook located in the `/research` directory.
+
+[View the Full Analysis Notebook](C:\projects\credit_agent\notebook\credit-agent-book.ipynb)
