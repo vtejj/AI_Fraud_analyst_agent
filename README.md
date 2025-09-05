@@ -16,6 +16,19 @@ The system is architected to combine the predictive power of supervised machine 
 * **Robust API Backend:** The entire system is served via a **FastAPI** application with two distinct endpoints (`/analyze` and `/chat`) for managing analysis sessions and conversations.
 * **End-to-End MLOps:** The project includes scripts for the entire machine learning lifecycle, from data preprocessing and model training (`train_model.py`) to persona generation (`create_profiles.py`).
 
+## Model Performance
+
+The final RandomForest model was evaluated on a hold-out test set, demonstrating robust performance in identifying fraudulent transactions within a highly imbalanced dataset.
+
+| Metric | Score | Description |
+| :--- | :--- | :--- |
+| **Test Set Size** | 85,443 | Number of transactions the model was tested on. |
+| **ROC-AUC Score** | 0.9493 | The model's ability to distinguish between genuine and fraudulent transactions. |
+| **PR-AUC Score** | 0.8360 | A key metric for imbalanced data, showing the trade-off between precision and recall. |
+| **Fraud Recall** | 0.83 | **(At 0.40 Threshold)** - The model correctly identified 83% of all actual frauds. |
+| **Fraud Precision**| 0.80 | **(At 0.40 Threshold)** - When the model flags a transaction, it is correct 80% of the time. |
+| **Fraud F1-Score** | 0.81 | **(At 0.40 Threshold)** - The balanced score between precision and recall for the fraud class. |
+
 ## Technologies Used
 
 * **Backend:** Python, FastAPI, Uvicorn
