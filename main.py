@@ -1,18 +1,15 @@
-# main.py (Version 6.0 - The Final, Knowledge-Aware Version)
-
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import Dict
 import json
 
-# Import the necessary components
 from agent import create_chat_agent
 from tools import get_ml_model_analysis, get_contextual_analysis
 from schemas import TransactionInput
 from langchain_groq import ChatGroq
 from langchain.memory import ConversationBufferWindowMemory
 
-# --- API and Model Setup ---
+# API and Model Setup 
 app = FastAPI(title="AI Fraud Analyst API v6.0")
 llm = ChatGroq(model="llama3-8b-8192", temperature=0)
 
@@ -23,7 +20,7 @@ with open('user_database.json', 'r') as f:
 # This dictionary will store session data
 chat_sessions: Dict[str, Dict] = {}
 
-# --- Request/Response Models ---
+# Request/Response Models 
 class AnalyzeRequest(BaseModel):
     session_id: str
     transaction: TransactionInput
@@ -36,7 +33,7 @@ class ApiResponse(BaseModel):
     session_id: str
     response: str
 
-# --- API Endpoints ---
+#  API Endpoints 
 
 @app.post("/analyze", response_model=ApiResponse)
 async def analyze_transaction(request: AnalyzeRequest):
@@ -63,7 +60,6 @@ async def analyze_transaction(request: AnalyzeRequest):
     memory = ConversationBufferWindowMemory(k=5, return_messages=True, memory_key="chat_history")
     chat_agent = create_chat_agent(llm, memory)
     
-    # --- THIS IS NEW ---
     # We now also store the persona name found in the context analysis
     persona_name = context_results.get("persona_name", "unknown")
     
@@ -98,7 +94,6 @@ async def chat_with_agent(request: ChatRequest):
     memory = session["memory"]
     analysis = session["analysis"]
     
-    # --- THIS IS THE KEY FIX ---
     # We retrieve the persona name and look up its full details from our database
     persona_name = session["persona_name"]
     persona_details = PERSONAS_DB.get(persona_name, {}) # Get the "textbook" page

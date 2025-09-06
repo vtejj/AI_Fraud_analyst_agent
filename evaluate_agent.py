@@ -1,5 +1,3 @@
-# evaluate_agent.py (Version 2.0 - with Time-Based Analysis)
-
 import pandas as pd
 import joblib
 import json
@@ -8,7 +6,7 @@ from sklearn.model_selection import train_test_split
 
 print("--- Starting Agent vs. Simple Model Evaluation Script (v2.0) ---")
 
-# --- Configuration ---
+# Configuration 
 DATA_PATH = 'creditcard.csv'
 MODEL_PATH = 'fraud_model.joblib'
 PERSONAS_PATH = 'user_database.json'
@@ -17,7 +15,7 @@ RANDOM_STATE = 42
 TEST_SIZE = 0.3
 ML_THRESHOLD = 0.40
 
-# --- Load all necessary assets ---
+# Load all necessary assets 
 print("Loading assets...")
 df = pd.read_csv(DATA_PATH)
 pipeline = joblib.load(MODEL_PATH)
@@ -25,13 +23,13 @@ with open(PERSONAS_PATH, 'r') as f:
     PERSONAS = json.load(f)
 PERSONA_CENTERS = {p_id: pd.Series(p) for p_id, p in PERSONAS.items()}
 
-# --- Recreate the exact same test set ---
+#  Recreate the exact same test set 
 X = df.drop(TARGET_VARIABLE, axis=1)
 y = df[TARGET_VARIABLE]
 _, X_test, _, y_test = train_test_split(X, y, test_size=TEST_SIZE, random_state=RANDOM_STATE, stratify=y)
 X_test = X_test.copy()
 
-# --- Define the two systems we are comparing ---
+#  two systems we are comparing 
 
 def get_simple_ml_decision(score):
     if score >= ML_THRESHOLD: return "FLAG"
@@ -64,13 +62,13 @@ def get_ai_agent_decision(score, transaction_data):
     elif transaction_series['Amount'] < 2.00:
         context_risk = "Medium"
 
-    # Synthesize with ML score for a final decision
+    
     if score >= 0.80: return "BLOCK"
     if score >= ML_THRESHOLD and context_risk == "High": return "BLOCK"
     if score >= ML_THRESHOLD: return "CHALLENGE"
     return "APPROVE"
 
-# --- Main Evaluation Logic ---
+# Main Evaluation Logic
 print("Evaluating model on the test set...")
 X_test['fraud_score'] = pipeline.predict_proba(X_test)[:, 1]
 X_test['true_class'] = y_test
@@ -81,7 +79,7 @@ print(f"\nFound {len(grey_area_df)} transactions in the 'grey area' (score betwe
 grey_area_df['simple_ml_decision'] = grey_area_df['fraud_score'].apply(get_simple_ml_decision)
 grey_area_df['ai_agent_decision'] = grey_area_df.apply(lambda row: get_ai_agent_decision(row['fraud_score'], row.drop(['fraud_score', 'true_class']).to_dict()), axis=1)
 
-# --- Calculate the Improvement ---
+# Calculate the Improvement 
 simple_ml_flags = grey_area_df[grey_area_df['simple_ml_decision'] == 'FLAG']
 agent_blocks_fraud = grey_area_df[(grey_area_df['ai_agent_decision'] == 'BLOCK') & (grey_area_df['true_class'] == 1)]
 

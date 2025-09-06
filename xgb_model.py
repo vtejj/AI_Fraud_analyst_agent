@@ -1,6 +1,4 @@
-# train_xgboost_model.py
-
-# --- 1. IMPORTS ---
+# Imports
 print("Importing libraries for XGBoost model...")
 import pandas as pd
 import joblib
@@ -11,7 +9,7 @@ from xgboost import XGBClassifier  # <-- CHANGE: Import XGBClassifier
 from imblearn.over_sampling import SMOTE
 print("Imports complete.")
 
-# --- 2. CONFIGURATION ---
+# Configuration
 DATA_PATH = 'creditcard.csv'
 MODEL_PATH = 'fraud_model_xgb.joblib' # <-- CHANGE: New model name
 TARGET_VARIABLE = 'Class'
@@ -22,7 +20,6 @@ def main():
     """Main function to train and save the XGBoost model pipeline."""
     print("--- Starting XGBoost Training Script ---")
     
-    # Load and Prepare Data (This part is the same)
     print(f"Loading data from {DATA_PATH}...")
     df = pd.read_csv(DATA_PATH)
     
@@ -35,20 +32,19 @@ def main():
     )
     print("Data split complete.")
 
-    # --- 5. DEFINE AND TRAIN XGBOOST MODEL ---
+    #  DEFINE AND TRAIN XGBOOST MODEL
     print("Defining XGBoost model pipeline...")
     
     pipeline = Pipeline([
         ('smote', SMOTE(random_state=RANDOM_STATE)),
         ('scaler', StandardScaler()),
-        # --- CHANGE: Use XGBClassifier instead of RandomForestClassifier ---
         ('classifier', XGBClassifier(random_state=RANDOM_STATE, use_label_encoder=False, eval_metric='logloss'))
     ])
 
     print("Training the XGBoost pipeline...")
     pipeline.fit(X_train, y_train)
     
-    # --- 6. SAVE THE PIPELINE ---
+    # 6. SAVE THE PIPELINE 
     print(f"Saving final XGBoost pipeline to {MODEL_PATH}...")
     joblib.dump(pipeline, MODEL_PATH)
     

@@ -1,9 +1,7 @@
-# generate_samples.py
-
 import pandas as pd
 import json
 
-# --- Configuration ---
+#configuration
 DATA_PATH = 'creditcard.csv'
 OUTPUT_PATH = 'fraud_samples.txt'
 TARGET_VARIABLE = 'Class'
@@ -33,8 +31,6 @@ def generate_fraudulent_samples():
 
             for i, (index, row) in enumerate(fraud_samples.iterrows()):
                 row_dict = row.drop(TARGET_VARIABLE).to_dict()
-                # NEW, CORRECT LINE
-                # NEW, CORRECT LINE
                 json_output = json.dumps(row_dict)
 
                 f.write(f"--- Transaction Sample {i + 1} (Row {index} from your CSV) ---\n")

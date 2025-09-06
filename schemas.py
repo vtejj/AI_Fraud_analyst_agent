@@ -1,5 +1,3 @@
-# schemas.py
-
 from pydantic import BaseModel
 
 # This class defines the structure of a credit card transaction.

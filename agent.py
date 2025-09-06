@@ -1,12 +1,10 @@
-# agent.py (Version 7.0 - The Final, Knowledgeable Version)
-
 from langchain_groq import ChatGroq
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.schema.runnable import RunnablePassthrough
 from langchain.schema.output_parser import StrOutputParser
 from langchain.memory import ConversationBufferWindowMemory
 
-# --- The Final Answering Agent Architecture ---
+# The Answering Agent Architecture 
 def create_chat_agent(llm, memory):
     """
     Creates the conversational agent that answers questions based on analysis

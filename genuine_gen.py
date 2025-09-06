@@ -1,9 +1,7 @@
-# generate_genuine_samples.py
-
 import pandas as pd
 import json
 
-# --- Configuration ---
+# Configuration 
 DATA_PATH = 'creditcard.csv'
 OUTPUT_PATH = 'genuine_samples.txt'
 TARGET_VARIABLE = 'Class'
@@ -18,14 +16,12 @@ def generate_genuine_samples():
         print(f"--- Generating 10 Genuine Samples from '{DATA_PATH}' ---")
         df = pd.read_csv(DATA_PATH)
 
-        # Filter for GENUINE transactions (where the target variable is 0)
         genuine_df = df[df[TARGET_VARIABLE] == 0].copy()
 
         if genuine_df.empty:
             print("No genuine transactions found in the dataset.")
             return
 
-        # Take a random sample of the genuine transactions
         genuine_samples = genuine_df.sample(n=NUM_SAMPLES, random_state=202) # Use a new random state
 
         with open(OUTPUT_PATH, 'w') as f:

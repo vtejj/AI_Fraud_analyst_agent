@@ -2,9 +2,7 @@ print("Importing libraries...")
 import pandas as pd
 import joblib
 from sklearn.model_selection import train_test_split
-# --- THIS IS THE KEY CHANGE ---
-from imblearn.pipeline import Pipeline # Import the special Pipeline from imblearn
-# ---------------------------------
+from imblearn.pipeline import Pipeline 
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
 from imblearn.over_sampling import SMOTE
@@ -12,7 +10,7 @@ from sklearn.metrics import roc_auc_score, precision_recall_curve, auc, classifi
 
 print("Imports complete.")
 
-# --- 2. CONFIGURATION ---
+# CONFIGURATION 
 DATA_PATH = 'creditcard.csv'
 MODEL_PATH = 'fraud_model.joblib'
 TARGET_VARIABLE = 'Class'
@@ -24,7 +22,7 @@ def main():
     """Main function to train, evaluate, and save the model pipeline."""
     print("--- Starting Training & Evaluation Script ---")
     
-    # --- 3. LOAD & PREPARE DATA ---
+    #  3. LOAD & PREPARE DATA 
     print(f"Loading data from {DATA_PATH}...")
     df = pd.read_csv(DATA_PATH)
     
@@ -37,8 +35,7 @@ def main():
     )
     print("Data split into training and testing sets.")
 
-    # --- 4. DEFINE AND TRAIN MODEL ---
-    # Now this Pipeline object is the one from imblearn, which understands SMOTE.
+    # 4. DEFINE AND TRAIN MODEL 
     print("Defining model pipeline...")
     pipeline = Pipeline([
         ('smote', SMOTE(random_state=RANDOM_STATE)),
@@ -50,12 +47,12 @@ def main():
     pipeline.fit(X_train, y_train)
     print("Model training complete.")
     
-    # --- 5. SAVE THE PIPELINE ---
+    # 5. SAVE THE PIPELINE
     print(f"Saving final model pipeline to {MODEL_PATH}...")
     joblib.dump(pipeline, MODEL_PATH)
     print(f"Model saved at: {MODEL_PATH}")
 
-    # --- 6. COMPREHENSIVE MODEL EVALUATION ---
+    # 6. COMPREHENSIVE MODEL EVALUATION
     print("\n--- Starting Comprehensive Model Evaluation on Test Set ---")
     
     test_set_size = len(X_test)

@@ -1,18 +1,16 @@
-# tools.py (Version 6.1 with Time-Based Rules)
-
 import joblib
 import pandas as pd
 from langchain.tools import tool
 import json
 import numpy as np
 
-# --- Load Models and Profiles at Startup ---
+# Load Models and Profiles at Startup 
 MODEL = joblib.load('fraud_model.joblib')
 with open('user_database.json', 'r') as f:
     PERSONAS = json.load(f)
 PERSONA_CENTERS = {p_id: pd.Series(p) for p_id, p in PERSONAS.items()}
 
-# --- AGENT TOOLS ---
+# AGENT TOOLS 
 
 @tool
 def get_ml_model_analysis(transaction_data: dict) -> dict:
@@ -28,7 +26,6 @@ def get_ml_model_analysis(transaction_data: dict) -> dict:
 def get_contextual_analysis(transaction_data: dict) -> dict:
     """Provides a contextual risk analysis based on user personas and time of day."""
     try:
-        # --- NEW: Time-based analysis ---
         transaction_hour = (transaction_data['Time'] / 3600) % 24
         
         transaction_series = pd.Series(transaction_data)
@@ -48,7 +45,6 @@ def get_contextual_analysis(transaction_data: dict) -> dict:
         transaction_amount = transaction_series['Amount']
         persona_avg_amount = persona_profile['Amount']
 
-        # --- NEW TIME-BASED RULE ---
         # If transaction is during late night hours (1am-5am) AND the persona's avg hour is during the day
         if (1 <= transaction_hour <= 5) and (7 <= persona_avg_hour <= 22):
             return {
