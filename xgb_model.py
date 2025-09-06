@@ -5,13 +5,13 @@ import joblib
 from sklearn.model_selection import train_test_split
 from imblearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
-from xgboost import XGBClassifier  # <-- CHANGE: Import XGBClassifier
+from xgboost import XGBClassifier  
 from imblearn.over_sampling import SMOTE
 print("Imports complete.")
 
 # Configuration
 DATA_PATH = 'creditcard.csv'
-MODEL_PATH = 'fraud_model_xgb.joblib' # <-- CHANGE: New model name
+MODEL_PATH = 'fraud_model_xgb.joblib' 
 TARGET_VARIABLE = 'Class'
 TEST_SIZE = 0.3
 RANDOM_STATE = 42
